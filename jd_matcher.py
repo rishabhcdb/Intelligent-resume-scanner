@@ -2,8 +2,14 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import spacy
+from spacy.cli import download
 
-nlp = spacy.load("en_core_web_sm")
+# Load SpaCy model with fallback if not downloaded
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    download("en_core_web_sm")
+    nlp = spacy.load("en_core_web_sm")
 
 def preprocess(text):
     doc = nlp(text.lower())
